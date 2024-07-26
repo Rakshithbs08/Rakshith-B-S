@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forgot Password - BizBill Pro</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            max-width: 400px;
+            width: 100%;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #0056b3;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #007bff;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            color: #ffffff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .links {
+            margin-top: 10px;
+        }
+
+        .links a {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container" id="phoneSection">
+        <h1>Forgot Password</h1>
+        <form id="phoneForm">
+            <div class="form-group">
+                <label for="phone">Enter Your 10-Digit Phone Number</label>
+                <input type="text" id="phone" name="phone" pattern="[0-9]{10}" required>
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <div class="container" id="otpSection" style="display: none;">
+        <h1>Enter OTP</h1>
+        <form id="otpForm">
+            <div class="form-group">
+                <label for="otp">Enter 6-Digit OTP</label>
+                <input type="text" id="otp" name="otp" pattern="[0-9]{6}" required>
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('phoneForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            var phone = document.getElementById('phone').value;
+
+            if (phone.length === 10) {
+                // Show OTP section and hide phone section
+                document.getElementById('phoneSection').style.display = 'none';
+                document.getElementById('otpSection').style.display = 'block';
+            } else {
+                alert('Please enter a valid 10-digit phone number.');
+            }
+        });
+
+        document.getElementById('otpForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            var otp = document.getElementById('otp').value;
+
+            if (otp === '032103') {
+                // Redirect to login page
+                window.location.href = 'landing.html';
+            } else {
+                alert('Invalid OTP. Please try again.');
+            }
+        });
+    </script>
+</body>
+
+</html>

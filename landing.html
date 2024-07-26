@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Landing Page</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #0056b3;
+            color: white;
+            padding: 1px 1px;
+            /* Reduced top padding */
+            text-align: center;
+            position: relative;
+        }
+
+        .menu {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .menu div {
+            width: 30px;
+            height: 3px;
+            background-color: white;
+            margin: 5px 0;
+            transition: all 0.3s;
+        }
+
+        .menu-items {
+            display: none;
+            position: absolute;
+            top: 40px;
+            right: 0;
+            background-color: #0056b3;
+            list-style: none;
+            padding: 15px;
+            /* Increased padding */
+            margin: 0;
+            border-radius: 5px;
+            z-index: 1;
+        }
+
+        .menu-items li {
+            padding: 10px 15px;
+            /* Increased padding size */
+            color: white;
+            cursor: pointer;
+        }
+
+        .menu-items li:hover {
+            background-color: #0056b3;
+        }
+
+        .top-blue-line {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            height: 1px;
+            /* Adjusted height */
+            width: 75px;
+            /* Adjusted width */
+            background-color: #ffffff;
+            z-index: -1;
+        }
+
+        .advertisement-banner {
+            width: 100%;
+            height: 370px;
+            overflow: hidden;
+            position: relative;
+            margin-top: 10px;
+        }
+
+        .advertisement-slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: opacity 1s ease-in-out;
+            opacity: 0;
+        }
+
+        .advertisement-slide.active {
+            opacity: 1;
+        }
+
+        .advertisement-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: calc(100vh - 300px);
+            gap: 50px;
+            margin-top: -50px;
+        }
+
+        .icon {
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .icon img {
+            width: 300px;
+            height: 300px;
+        }
+
+        .icon p {
+            margin-top: 10px;
+            font-size: 22px;
+        }
+
+        .blue-line {
+            height: 2px;
+            background-color: #29cf;
+            margin: 10px 0;
+        }
+
+        .separator-line {
+            height: 1px;
+            background-color: #ddd;
+            margin: 10px 0;
+        }
+
+        .bottom-videos {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .bottom-videos video {
+            width: 45%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="top-blue-line"></div>
+        <h1>BIZBILL</h1>
+        <div class="menu" id="menu">
+            <div></div>
+            <div></div>
+            <div></div>
+            <ul class="menu-items" id="menuItems">
+                <li onclick="location.href='billing.html'">Billing Services</li>
+                <li onclick="location.href='hire_designer.html'">Designing Services</li>
+                <li onclick="location.href='hire_charted.html'">Chartered Accountant Services</li>
+                <li onclick="location.href='Charted_enrolment.html'">Charted Accountant Registration</li>
+                <li onclick="location.href='designer_enrolment.html'">Designer Registration</li>
+                <li onclick="location.href='abou_us.html'">About Company</li>
+                <li onclick="location.href='contact.html'">contact</li>
+                <li onclick="location.href='index.html'">Logout</li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="blue-line"></div>
+
+    <div class="advertisement-banner" id="advertisementBanner">
+        <div class="advertisement-slide active">
+            <img src="banner_1.png" alt="LinkedIn Banner Image 1">
+        </div>
+        <div class="advertisement-slide">
+            <img src="banner_2.png" alt="LinkedIn Banner Image 2">
+        </div>
+        <div class="advertisement-slide">
+            <img src="banner_3.png" alt="LinkedIn Banner Image 3">
+        </div>
+        <div class="advertisement-slide">
+            <img src="banner_4.png" alt="LinkedIn Banner Image 4">
+        </div>
+    </div>
+
+    <div class="separator-line"></div>
+
+    <div class="container">
+        <div class="icon" id="billing" onclick="openBillingPage()">
+            <img src="billing_icon.jpeg" alt="Billing">
+            <p>Billing Services</p>
+        </div>
+        <div class="icon" id="designing" onclick="openDesigningService()">
+            <img src="designer_icon.jpeg" alt="Designing">
+            <p>Designing Services</p>
+        </div>
+        <div class="icon" id="accountant" onclick="openAccountantService()">
+            <img src="Charted_account.jpeg" alt="Chartered Accountant">
+            <p>Chartered Accountant Services</p>
+        </div>
+    </div>
+
+    <div class="bottom-videos">
+        <video autoplay muted controls>
+            <source src="Clothing Ad Video Template (Editable) (1).mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <video autoplay muted controls>
+            <source src="Restaurant Ad Video Template (Editable).mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const menu = document.getElementById('menu');
+            const menuItems = document.getElementById('menuItems');
+
+            menu.addEventListener('click', function () {
+                if (menuItems.style.display === 'block') {
+                    menuItems.style.display = 'none';
+                } else {
+                    menuItems.style.display = 'block';
+                }
+            });
+
+            document.addEventListener('click', function (event) {
+                if (!menu.contains(event.target) && menuItems.style.display === 'block') {
+                    menuItems.style.display = 'none';
+                }
+            });
+
+            // Advertisement slider
+            const slides = document.querySelectorAll('.advertisement-slide');
+            let currentSlide = 0;
+
+            function showSlide(index) {
+                slides.forEach((slide, i) => {
+                    slide.classList.remove('active');
+                    if (i === index) {
+                        slide.classList.add('active');
+                    }
+                });
+            }
+
+            function nextSlide() {
+                currentSlide = (currentSlide + 1) % slides.length;
+                showSlide(currentSlide);
+            }
+
+            setInterval(nextSlide, 5000); // Change every 5 seconds
+        });
+
+        function openBillingPage() {
+            window.location.href = 'billing.html';
+        }
+
+        function openDesigningService() {
+            window.location.href = 'hire_designer.html';
+        }
+
+        function openAccountantService() {
+            window.location.href = 'hire_charted.html';
+        }
+
+        function logout() {
+            // Add your logout logic here
+            alert('Logged out');
+        }
+    </script>
+</body>
+
+</html>

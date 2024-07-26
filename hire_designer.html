@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hire a Designer</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            color: #333;
+        }
+
+        header {
+            background-color: #29cf;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        section {
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #29cf;
+            border-radius: 5px;
+        }
+
+        h2 {
+            color: #29cf;
+        }
+
+        .designer {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .stars {
+            color: #ffd700;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Hire a Designer</h1>
+    </header>
+
+    <section class="hire">
+        <div id="designerList">
+            <!-- Designers will be listed here -->
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const designerList = document.getElementById('designerList');
+            const designers = [
+                {
+                    name: 'Rahul Sharma',
+                    phone: '987-654-3210',
+                    email: 'rahulsharma@example.com',
+                    skills: 'Graphic Design, Photoshop',
+                    proficiency: 8,
+                    rating: 4
+                },
+                {
+                    name: 'Sneha Gupta',
+                    phone: '876-543-2109',
+                    email: 'snehagupta@example.com',
+                    skills: 'UI/UX Design, Figma',
+                    proficiency: 9,
+                    rating: 5
+                },
+                {
+                    name: 'Amit Kumar',
+                    phone: '765-432-1098',
+                    email: 'amitkumar@example.com',
+                    skills: 'Web Design, HTML, CSS',
+                    proficiency: 7,
+                    rating: 3
+                },
+                {
+                    name: 'Priya Singh',
+                    phone: '654-321-0987',
+                    email: 'priyasingh@example.com',
+                    skills: 'Logo Design, Illustrator',
+                    proficiency: 8,
+                    rating: 4
+                }
+            ];
+
+            designers.forEach(function (designer) {
+                const designerDiv = document.createElement('div');
+                designerDiv.className = 'designer';
+                designerDiv.innerHTML = `
+                    <h3>${designer.name}</h3>
+                    <p>Phone: ${designer.phone}</p>
+                    <p>Email: ${designer.email}</p>
+                    <p>Skills: ${designer.skills}</p>
+                    <p>Proficiency: ${designer.proficiency}/10</p>
+                    <p>Rating: <span class="stars">${'★'.repeat(designer.rating)}${'☆'.repeat(5 - designer.rating)}</span></p>
+                `;
+                designerList.appendChild(designerDiv);
+            });
+        });
+    </script>
+</body>
+
+</html>

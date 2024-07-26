@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hire a Chartered Accountant</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            color: #333;
+        }
+
+        header {
+            background-color: #29cf;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        section {
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #29cf;
+            border-radius: 5px;
+        }
+
+        h2 {
+            color: #29cf;
+        }
+
+        .ca {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .stars {
+            color: #ffd700;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Hire a Chartered Accountant</h1>
+    </header>
+
+    <section class="hire">
+        <div id="caList">
+            <!-- Chartered Accountants will be listed here -->
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const caList = document.getElementById('caList');
+            const cas = [
+                {
+                    name: 'Rajesh Kumar',
+                    phone: '987-654-3210',
+                    email: 'rajeshkumar@example.com',
+                    skills: 'Tax Planning, Auditing',
+                    proficiency: 9,
+                    rating: 5
+                },
+                {
+                    name: 'Anita Verma',
+                    phone: '123-123-1234',
+                    email: 'anitaverma@example.com',
+                    skills: 'Financial Reporting, Risk Management',
+                    proficiency: 8,
+                    rating: 4
+                },
+                {
+                    name: 'Suresh Patel',
+                    phone: '555-666-7777',
+                    email: 'sureshpatel@example.com',
+                    skills: 'Budgeting, Compliance',
+                    proficiency: 7,
+                    rating: 3
+                },
+                {
+                    name: 'Meena Sharma',
+                    phone: '888-999-0000',
+                    email: 'meenasharma@example.com',
+                    skills: 'Forensic Accounting, Corporate Finance',
+                    proficiency: 8,
+                    rating: 4
+                }
+            ];
+
+            cas.forEach(function (ca) {
+                const caDiv = document.createElement('div');
+                caDiv.className = 'ca';
+                caDiv.innerHTML = `
+                    <h3>${ca.name}</h3>
+                    <p>Phone: ${ca.phone}</p>
+                    <p>Email: ${ca.email}</p>
+                    <p>Skills: ${ca.skills}</p>
+                    <p>Proficiency: ${ca.proficiency}/10</p>
+                    <p>Rating: <span class="stars">${'★'.repeat(ca.rating)}${'☆'.repeat(5 - ca.rating)}</span></p>
+                `;
+                caList.appendChild(caDiv);
+            });
+        });
+    </script>
+</body>
+
+</html>

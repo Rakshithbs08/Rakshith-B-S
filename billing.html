@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        form div {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: inline-block;
+            width: 120px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            padding: 8px;
+            width: 200px;
+            box-sizing: border-box;
+        }
+
+        #products {
+            margin-bottom: 20px;
+        }
+
+        .product {
+            display: flex;
+            margin-bottom: 10px;
+        }
+
+        .product label {
+            width: 120px;
+        }
+
+        .product input {
+            width: 100px;
+            margin-right: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .total {
+            font-weight: bold;
+        }
+
+        button {
+            padding: 10px 15px;
+            margin-top: 10px;
+            font-size: 16px;
+            background-color: #29cf;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0000FF;
+        }
+
+        #downloadPDF {
+            padding: 10px 15px;
+            margin-top: 10px;
+            font-size: 16px;
+            background-color: #008CBA;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: none;
+        }
+
+        #downloadPDF:hover {
+            background-color: #006F8B;
+        }
+
+        #billPreview {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Invoice Generator</h1>
+        <form id="billForm">
+            <div>
+                <label for="gstNumber">GST Number:</label>
+                <input type="text" id="gstNumber" name="gstNumber">
+            </div>
+            <div>
+                <label for="storeName">Store Name:</label>
+                <input type="text" id="storeName" name="storeName" required>
+            </div>
+            <div>
+                <label for="customerName">Customer Name:</label>
+                <input type="text" id="customerName" name="customerName" required>
+            </div>
+            <div id="products">
+                <div class="product">
+                    <label for="productName">Product Name:</label>
+                    <input type="text" class="productName" name="productName" required>
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" class="quantity" name="quantity" required>
+                    <label for="price">Price (Inclusive of GST):</label>
+                    <input type="number" class="price" name="price" required>
+                    <label for="gstRate">GST Rate:</label>
+                    <select class="gstRate" name="gstRate">
+                        <option value="0">0%</option>
+                        <option value="5">5%</option>
+                        <option value="12">12%</option>
+                        <option value="18">18%</option>
+                        <option value="28">28%</option>
+                    </select>
+                </div>
+            </div>
+            <button type="button" id="addProduct">Add Product</button>
+            <button type="submit">Generate Invoice</button>
+        </form>
+        <div id="billPreview"></div>
+        <button id="downloadPDF">Download PDF</button>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.13/jspdf.plugin.autotable.min.js"></script>
+    <script>
+        document.getElementById('addProduct').addEventListener('click', addProduct);
+        document.getElementById('billForm').addEventListener('submit', generateInvoice);
+        document.getElementById('downloadPDF').addEventListener('click', downloadPDF);
+
+        function addProduct() {
+            const productDiv = document.createElement('div');
+            productDiv.className = 'product';
+            productDiv.innerHTML = `
+                <label for="productName">Product Name:</label>
+                <input type="text" class="productName" name="productName" required>
+                <label for="quantity">Quantity:</label>
+                <input type="number" class="quantity" name="quantity" required>
+                <label for="price">Price (Inclusive of GST):</label>
+                <input type="number" class="price" name="price" required>
+                <label for="gstRate">GST Rate:</label>
+                <select class="gstRate" name="gstRate">
+                    <option value="0">0%</option>
+                    <option value="5">5%</option>
+                    <option value="12">12%</option>
+                    <option value="18">18%</option>
+                    <option value="28">28%</option>
+                </select>
+            `;
+            document.getElementById('products').appendChild(productDiv);
+        }
+
+        function generateInvoice(event) {
+            event.preventDefault();
+
+            const gstNumber = document.getElementById('gstNumber').value;
+            const storeName = document.getElementById('storeName').value;
+            const customerName = document.getElementById('customerName').value;
+            const products = document.querySelectorAll('.product');
+
+            let billData = [];
+            let totalAmount = 0;
+            let totalGST = 0;
+            let totalCGST = 0;
+
+            products.forEach(product => {
+                const productName = product.querySelector('.productName').value;
+                const quantity = parseInt(product.querySelector('.quantity').value, 10);
+                const priceInclusiveGST = parseFloat(product.querySelector('.price').value);
+                const gstRate = parseInt(product.querySelector('.gstRate').value, 10);
+
+                // Calculate price exclusive of GST
+                const priceExclusiveGST = priceInclusiveGST / (1 + (gstRate / 100));
+
+                const total = priceInclusiveGST * quantity;
+                totalAmount += total;
+
+                // Calculate GST and CGST for each product
+                const gstAmount = (total * (gstRate / 100));
+                const cgstAmount = gstAmount; // Assuming CGST is equal to SGST
+
+                totalGST += gstAmount;
+                totalCGST += cgstAmount;
+
+                billData.push({
+                    productName,
+                    quantity,
+                    priceInclusiveGST,
+                    priceExclusiveGST,
+                    total,
+                    gstAmount,
+                    cgstAmount
+                });
+            });
+
+            displayInvoicePreview(gstNumber, storeName, customerName, billData, totalAmount, totalGST, totalCGST);
+        }
+
+        function displayInvoicePreview(gstNumber, storeName, customerName, billData, totalAmount, totalGST, totalCGST) {
+            let invoiceHTML = `
+                <h2>Invoice</h2>
+                <p>GST Number: ${gstNumber}</p>
+                <p>Store Name: ${storeName}</p>
+                <p>Customer Name: ${customerName}</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Quantity</th>
+                            <th>Price (Inclusive of GST)</th>
+                            <th>Total</th>
+                            <th>GST</th>
+                            <th>CGST</th>
+                        </tr>
+                    </thead>
+                    <tbody>`;
+
+            billData.forEach(item => {
+                invoiceHTML += `
+                    <tr>
+                        <td>${item.productName}</td>
+                        <td>${item.quantity}</td>
+                        <td>${item.priceInclusiveGST.toFixed(2)}</td>
+                        <td>${item.total.toFixed(2)}</td>
+                        <td>${item.gstAmount.toFixed(2)}</td>
+                        <td>${item.cgstAmount.toFixed(2)}</td>
+                    </tr>`;
+            });
+
+            invoiceHTML += `
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3"><strong>Total Amount</strong></td>
+                            <td>${totalAmount.toFixed(2)}</td>
+                            <td>${totalGST.toFixed(2)}</td>
+                            <td>${totalCGST.toFixed(2)}</td>
+                        </tr>
+                    </tfoot>
+                </table>`;
+
+            document.getElementById('billPreview').innerHTML = invoiceHTML;
+            document.getElementById('downloadPDF').style.display = 'block';
+        }
+
+        function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            const gstNumber = document.getElementById('gstNumber').value;
+            const storeName = document.getElementById('storeName').value;
+            const customerName = document.getElementById('customerName').value;
+            const products = document.querySelectorAll('.product');
+
+            let yPos = 20;
+
+            doc.setFontSize(18);
+            doc.text('Invoice', 105, yPos, { align: 'center' });
+            yPos += 10;
+
+            let billData = [];
+            let totalAmount = 0;
+            let totalGST = 0;
+            let totalCGST = 0;
+
+            products.forEach(product => {
+                const productName = product.querySelector('.productName').value;
+                const quantity = parseInt(product.querySelector('.quantity').value, 10);
+                const priceInclusiveGST = parseFloat(product.querySelector('.price').value);
+                const gstRate = parseInt(product.querySelector('.gstRate').value, 10);
+
+                // Calculate price exclusive of GST
+                const priceExclusiveGST = priceInclusiveGST / (1 + (gstRate / 100));
+
+                const total = priceInclusiveGST * quantity;
+                totalAmount += total;
+
+                // Calculate GST and CGST for each product
+                const gstAmount = (total * (gstRate / 100));
+                const cgstAmount = gstAmount; // Assuming CGST is equal to SGST
+
+                totalGST += gstAmount;
+                totalCGST += cgstAmount;
+
+                billData.push({
+                    productName,
+                    quantity,
+                    priceInclusiveGST,
+                    priceExclusiveGST,
+                    total,
+                    gstAmount,
+                    cgstAmount
+                });
+            });
+
+            yPos += 10;
+
+            doc.setFontSize(12);
+            doc.text(`GST Number: ${gstNumber}`, 20, yPos);
+            yPos += 10;
+            doc.text(`Store Name: ${storeName}`, 20, yPos);
+            yPos += 10;
+            doc.text(`Customer Name: ${customerName}`, 20, yPos);
+            yPos += 15;
+
+            const tableColumns = ['Product Name', 'Quantity', 'Price (Inclusive of GST)', 'Total', 'GST', 'CGST'];
+            const tableRows = [];
+
+            billData.forEach(item => {
+                const {
+                    productName,
+                    quantity,
+                    priceInclusiveGST,
+                    total,
+                    gstAmount,
+                    cgstAmount
+                } = item;
+                const row = [productName, quantity, priceInclusiveGST.toFixed(2), total.toFixed(2), gstAmount.toFixed(2), cgstAmount.toFixed(2)];
+                tableRows.push(row);
+            });
+
+            doc.autoTable({
+                startY: yPos,
+                head: [tableColumns],
+                body: tableRows,
+                didDrawPage: function (data) {
+                    // Header
+                    doc.setFontSize(18);
+                    doc.setTextColor(40);
+                    doc.text('Invoice', data.settings.margin.left, 10, { align: 'center' });
+                }
+            });
+
+            yPos = doc.autoTable.previous.finalY + 10;
+
+            // Total amount
+            doc.setFontSize(12);
+            doc.text(`Total Amount: ${totalAmount.toFixed(2)}`, 20, yPos);
+            yPos += 10;
+            doc.text(`Total GST: ${totalGST.toFixed(2)}`, 20, yPos);
+            yPos += 10;
+            doc.text(`Total CGST: ${totalCGST.toFixed(2)}`, 20, yPos);
+
+            doc.save('invoice.pdf');
+        }
+    </script>
+</body>
+
+</html>

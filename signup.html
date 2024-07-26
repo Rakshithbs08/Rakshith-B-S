@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup - BizBill Pro</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .signup-container {
+            max-width: 500px;
+            width: 100%;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #0056b3;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #007bff;
+        }
+
+        input[type="text"],
+        input[type="tel"],
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            color: #ffffff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .links {
+            margin-top: 10px;
+        }
+
+        .links a {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="signup-container">
+        <h1>Sign Up for BizBill Pro</h1>
+        <form id="signupForm">
+            <div class="form-group">
+                <label for="name">Customer Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required>
+                <small>Enter a 10-digit phone number</small>
+            </div>
+            <div class="form-group">
+                <label for="business">Business Name</label>
+                <input type="text" id="business" name="business" required>
+            </div>
+            <div class="form-group">
+                <label for="gst">GST Number</label>
+                <input type="text" id="gst" name="gst" required>
+            </div>
+            <div class="form-group">
+                <label for="pan">PAN Number</label>
+                <input type="text" id="pan" name="pan" required>
+            </div>
+            <button type="submit">Sign Up</button>
+        </form>
+        <div class="links">
+            <a href="login.html">Already have an account? Login here</a>
+        </div>
+    </div>
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', function (event) {
+            var name = document.getElementById('name').value;
+            var phone = document.getElementById('phone').value;
+            var business = document.getElementById('business').value;
+            var gst = document.getElementById('gst').value;
+            var pan = document.getElementById('pan').value;
+
+            if (name === '' || phone === '' || business === '' || gst === '' || pan === '') {
+                event.preventDefault();
+                alert('Please fill out all fields.');
+            } else {
+                // Form submission logic here
+                alert('Signup successful!');
+                // You can also use AJAX here to send data to the server
+            }
+        });
+    </script>
+</body>
+
+</html>
