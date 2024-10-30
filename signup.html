@@ -4,140 +4,219 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signup - BizBill Pro</title>
+    <title>Calming Signup Page</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            color: #333;
             margin: 0;
             padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: lavender;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
+            position: relative;
         }
 
-        .signup-container {
-            max-width: 500px;
-            width: 100%;
+        .container {
+            background-color: #f0f0f0;
+            border-radius: 10px;
             padding: 20px;
-            background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 2;
         }
 
-        h1 {
-            color: #0056b3;
+        .signup-box {
+            text-align: center;
+            padding: 30px;
+        }
+
+        h2 {
+            color: #435B66;
             margin-bottom: 20px;
         }
 
-        .form-group {
-            margin-bottom: 15px;
-            text-align: left;
+        form {
+            display: flex;
+            flex-direction: column;
         }
 
-        label {
-            display: block;
-            margin-bottom: 5px;
-            color: #007bff;
-        }
-
-        input[type="text"],
-        input[type="tel"],
-        input[type="number"] {
-            width: 100%;
+        input {
+            margin-bottom: 10px;
             padding: 10px;
-            border: 1px solid #ddd;
+            border: none;
             border-radius: 5px;
-            box-sizing: border-box;
+            background-color: #f0f0f0;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+            outline: none;
         }
 
         button {
-            display: block;
-            width: 100%;
             padding: 10px;
-            font-size: 16px;
-            color: #ffffff;
-            background-color: #007bff;
             border: none;
             border-radius: 5px;
+            background-color: #435B66;
+            color: #fff;
+            font-weight: bold;
             cursor: pointer;
-            text-decoration: none;
-            text-align: center;
-            margin-top: 10px;
+            transition: background-color 0.3s ease;
         }
 
         button:hover {
-            background-color: #0056b3;
+            background-color: #A084E8;
         }
 
-        .links {
+        .shapes-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .bird {
+            width: 50px;
+            height: 50px;
+            background-color: pink;
+            position: absolute;
+            border-radius: 50%;
+        }
+
+        .bird1 {
+            top: 20%;
+            left: 20%;
+            animation: moveBird 4s infinite alternate;
+        }
+
+        .bird2 {
+            top: 50%;
+            left: 80%;
+            animation: moveBird 6s infinite alternate;
+        }
+
+        .bird3 {
+            top: 80%;
+            left: 50%;
+            animation: moveBird 5s infinite alternate;
+        }
+
+        .ball {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            position: absolute;
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .ball1 {
+            top: 40%;
+            left: 40%;
+            background-color: #b19cd9;
+            animation: moveBall 7s infinite alternate;
+        }
+
+        .ball2 {
+            top: 70%;
+            left: 60%;
+            background-color: #b6e6bd;
+            animation: moveBall 5s infinite alternate;
+        }
+
+        .ball3 {
+            top: 50%;
+            left: 20%;
+            background-color: #f0b3ff;
+            animation: moveBall 6s infinite alternate;
+        }
+
+
+
+        .ball4 {
+            top: 30%;
+            left: 80%;
+            background-color: #f2b5d4;
+            animation: moveBall 6s infinite alternate;
+        }
+
+        .ball5 {
+            top: 90%;
+            left: 40%;
+            background-color: #d6a2c4;
+            animation: moveBall 7s infinite alternate;
+        }
+
+
+        .login-account {
             margin-top: 10px;
-        }
-
-        .links a {
-            color: #007bff;
+            color: #435B66;
             text-decoration: none;
-            font-size: 14px;
+            cursor: pointer;
         }
 
-        .links a:hover {
+        .login-account a {
+            color: #435B66;
+            text-decoration: none;
+        }
+
+        .login-account a:hover {
             text-decoration: underline;
+        }
+
+        @keyframes moveBird {
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(-50px);
+            }
+        }
+
+        @keyframes moveBall {
+            from {
+                transform: translateY(0);
+            }
+
+            to {
+                transform: translateY(-30px);
+            }
         }
     </style>
 </head>
 
 <body>
-    <div class="signup-container">
-        <h1>Sign Up for BizBill Pro</h1>
-        <form id="signupForm">
-            <div class="form-group">
-                <label for="name">Customer Name</label>
-                <input type="text" id="name" name="name" required>
-            </div>
-            <div class="form-group">
-                <label for="phone">Phone Number</label>
-                <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required>
-                <small>Enter a 10-digit phone number</small>
-            </div>
-            <div class="form-group">
-                <label for="business">Business Name</label>
-                <input type="text" id="business" name="business" required>
-            </div>
-            <div class="form-group">
-                <label for="gst">GST Number</label>
-                <input type="text" id="gst" name="gst" required>
-            </div>
-            <div class="form-group">
-                <label for="pan">PAN Number</label>
-                <input type="text" id="pan" name="pan" required>
-            </div>
-            <button type="submit">Sign Up</button>
-        </form>
-        <div class="links">
-            <a href="login.html">Already have an account? Login here</a>
+    <div class="shapes-container">
+        <div class="bird bird1"></div>
+        <div class="bird bird2"></div>
+        <div class="bird bird3"></div>
+
+
+        <div class="ball ball1"></div>
+        <div class="ball ball2"></div>
+        <div class="ball ball3"></div>
+        <div class="ball ball4"></div>
+        <div class="ball ball5"></div>
+
+    </div>
+    <div class="container">
+        <div class="signup-box">
+            <h2>Create an Account</h2>
+            <form>
+                <input type="text" placeholder="Full Name" required>
+                <input type="text" placeholder="Email Address" required>
+                <input type="number" id="age" name="age" placeholder="age" required>
+                <input type="password" placeholder="Password" required>
+                <input type="password" placeholder="Confirm Password" required>
+                <button type="submit">Sign Up</button>
+            </form>
+            <p class="login-account">Already have an account? <a href="index.html">Log In</a></p>
         </div>
     </div>
-    <script>
-        document.getElementById('signupForm').addEventListener('submit', function (event) {
-            var name = document.getElementById('name').value;
-            var phone = document.getElementById('phone').value;
-            var business = document.getElementById('business').value;
-            var gst = document.getElementById('gst').value;
-            var pan = document.getElementById('pan').value;
 
-            if (name === '' || phone === '' || business === '' || gst === '' || pan === '') {
-                event.preventDefault();
-                alert('Please fill out all fields.');
-            } else {
-                // Form submission logic here
-                alert('Signup successful!');
-                // You can also use AJAX here to send data to the server
-            }
-        });
-    </script>
 </body>
 
 </html>
